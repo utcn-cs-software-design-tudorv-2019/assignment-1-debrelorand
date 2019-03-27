@@ -4,12 +4,21 @@ public class Course {
 	private int id;
 	private String nume;
 	private int credit;
+	private int idAdministrator;
 	
-	public Course(int id, String nume, int credit) {
+	public Course(int id, String nume, int credit, int idAdministrator) {
 		super();
 		this.id = id;
 		this.nume = nume;
 		this.credit = credit;
+		this.idAdministrator=idAdministrator;
+	}
+	
+	public Course(String nume, int credit, int idAdministrator) {
+		super();
+		this.nume = nume;
+		this.credit = credit;
+		this.idAdministrator=idAdministrator;
 	}
 
 	public int getId() {
@@ -34,6 +43,16 @@ public class Course {
 
 	public void setCredit(int credit) {
 		this.credit = credit;
+	}
+	
+	public int getidAdministrator()
+	{
+		return idAdministrator;
+	}
+	
+	public void setidAdministrator(int idAdministrator)
+	{
+		this.idAdministrator=idAdministrator;
 	}
 	
 	

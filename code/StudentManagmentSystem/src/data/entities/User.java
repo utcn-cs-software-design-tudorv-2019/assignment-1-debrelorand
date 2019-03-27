@@ -5,7 +5,7 @@ public class User {
 	private String prenume;
 	private String username;
 	private String password;
-	private int cnp;
+	private String cnp;
 	private String adresa;
 	private String email;
 	
@@ -14,7 +14,7 @@ public class User {
 		
 	}
 	
-	public User(String nume, String prenume, String username, String password, int cnp, String adresa,
+	public User(String nume, String prenume, String username, String password, String cnp, String adresa,
 			String email) {
 		super();
 		this.nume = nume;
@@ -58,11 +58,11 @@ public class User {
 		this.password = password;
 	}
 
-	public int getCnp() {
+	public String getCnp() {
 		return cnp;
 	}
 
-	public void setCnp(int cnp) {
+	public void setCnp(String cnp) {
 		this.cnp = cnp;
 	}
 

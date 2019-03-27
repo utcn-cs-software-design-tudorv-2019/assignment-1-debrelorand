@@ -13,11 +13,11 @@ import data.entities.Administrator;
 
 public class AdministratorDAO {
 	protected static final Logger LOGGER = Logger.getLogger(StudentDAO.class.getName());
-	private static final String insertStatementString = "INSERT INTO administrator (nume,prenume,username,password,cnp,adresa,email,catedra)" 
-			+ " VALUES (?,?,?,?,?,?,?,?)";
-	private final static String updateStatementString = "UPDATE students SET name=?, cardID=?, cnp=?, address=?, groupID=?, username=?, password=?"
-					+ " WHERE studentID=?";
+	private static final String insertStatementString = "INSERT INTO administrator (nume,prenume,username,password,cnp,adresa,email,catedra)" + " VALUES (?,?,?,?,?,?,?,?)";
+	private final static String updateStatementString = "UPDATE administrator SET nume=?,prenume=?,username=?,password=?,cnp=?,adresa=?,email=?,catedra=?" + " WHERE idAdministrator=?";
 	private final static String selectStatementString = "SELECT * From administrator where username=?";
+	private final static String deleteStatementString = "DELETE from administrator where idAdministrator=?";
+	
 	public int insert(Administrator admin) {
 		Connection dbConnection = ConnectionFactory.getConnection();
 		PreparedStatement insertStatement = null;
@@ -29,7 +29,7 @@ public class AdministratorDAO {
 			insertStatement.setString(2, admin.getPrenume());
 			insertStatement.setString(3, admin.getUsername());
 			insertStatement.setString(4, admin.getPassword());
-			insertStatement.setInt(5, admin.getCnp());
+			insertStatement.setString(5, admin.getCnp());
 			insertStatement.setString(6, admin.getAdresa());
 			insertStatement.setString(7, admin.getEmail());
 			insertStatement.setString(8, admin.getCatedra());
@@ -63,10 +63,10 @@ public class AdministratorDAO {
 			rs = finderStatement.executeQuery();
 			rs.next();
 			
-			rezultat = new Administrator(rs.getString("nume"),rs.getString("prenume"),rs.getString("username"),rs.getString("password"),rs.getInt("cnp"),rs.getString("adresa"),rs.getString("email"),rs.getString("catedra"),rs.getInt("idAdministrator"));
+			rezultat = new Administrator(rs.getString("nume"),rs.getString("prenume"),rs.getString("username"),rs.getString("password"),rs.getString("cnp"),rs.getString("adresa"),rs.getString("email"),rs.getString("catedra"),rs.getInt("idAdministrator"));
 			
 		} catch (SQLException e) {
-			LOGGER.log(Level.WARNING, "StudentDao:insert " + e.getMessage());
+			//LOGGER.log(Level.WARNING, "StudentDao:insert " + e.getMessage());
 		} finally {
 			
 			ConnectionFactory.close(finderStatement);
@@ -75,16 +75,53 @@ public class AdministratorDAO {
 		return rezultat;
 	}
 	
-	// update a admin
-	
-	public void update(Administrator admin)
+	public boolean update(Administrator admin)
 	{
-		
+		Connection dbConnection = ConnectionFactory.getConnection();
+		PreparedStatement updateStatement = null;	
+		int ID = admin.getNrIdentificare();
+
+		try {			
+			updateStatement = dbConnection.prepareStatement(updateStatementString, Statement.RETURN_GENERATED_KEYS);		
+			updateStatement.setString(1,admin.getNume());
+			updateStatement.setString(2,admin.getPrenume());
+			updateStatement.setString(3,admin.getUsername());
+			updateStatement.setString(4,admin.getPassword());
+			updateStatement.setString(5,admin.getCnp());
+			updateStatement.setString(6,admin.getAdresa());
+			updateStatement.setString(7,admin.getEmail());
+			updateStatement.setString(8,admin.getCatedra());
+			updateStatement.setInt(9,ID);		
+			updateStatement.executeUpdate();
+			return true;
+		}
+		catch(SQLException e)
+		{
+			LOGGER.log(Level.WARNING, "AdministratorDao:update " + e.getMessage());
+			return false;
+	    } finally {
+		 ConnectionFactory.close(updateStatement);
+		 ConnectionFactory.close(dbConnection);
+	    }
 	}
 	
-	// delete admin
-	
-	public void delete(int adminID){
+	public boolean delete(int adminID){
+		Connection dbConnection = ConnectionFactory.getConnection();
+		PreparedStatement deleteStatement = null;
 		
+		try {
+			deleteStatement = dbConnection.prepareStatement(deleteStatementString);
+			deleteStatement.setInt(1, adminID);
+			deleteStatement.executeUpdate();
+			return true;
+		}
+		catch(SQLException e)
+		 {
+			 LOGGER.log(Level.WARNING, "AdministratorDAO:delete " + e.getMessage());
+			 return false;
+	     } finally {
+		  ConnectionFactory.close(deleteStatement);
+		  ConnectionFactory.close(dbConnection);
+	    }
 	}
 }

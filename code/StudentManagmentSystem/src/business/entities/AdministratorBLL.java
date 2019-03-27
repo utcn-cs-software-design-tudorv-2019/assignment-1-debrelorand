@@ -18,4 +18,13 @@ public class AdministratorBLL {
 	{
 		return administratorDAO.getByName(name);
 	}
+	
+	public boolean update(Administrator admin)
+	{
+		return administratorDAO.update(admin);
+	}
+	
+	public boolean delete(int adminID) {
+		return administratorDAO.delete(adminID);
+	}
 }

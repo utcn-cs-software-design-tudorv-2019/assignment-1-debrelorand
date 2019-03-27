@@ -7,15 +7,14 @@ public class Administrator extends User{
 	
 	private int nrIdentificare;
 	private String catedra;
-	private List cursuri = new ArrayList<Course>();
 	
-	public Administrator(String nume, String prenume, String username, String password, int cnp, String adresa,
+	public Administrator(String nume, String prenume, String username, String password, String cnp, String adresa,
 			String email, String catedra) {
 		super(nume, prenume, username, password, cnp, adresa, email);
 		this.catedra = catedra;
 	}
 	
-	public Administrator(String nume, String prenume, String username, String password, int cnp, String adresa,
+	public Administrator(String nume, String prenume, String username, String password, String cnp, String adresa,
 			String email, String catedra, int nrIdentificare) {
 		super(nume, prenume, username, password, cnp, adresa, email);
 		this.catedra = catedra;

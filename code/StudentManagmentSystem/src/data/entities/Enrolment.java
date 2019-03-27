@@ -7,6 +7,8 @@ public class Enrolment {
 	private Date startDate;
 	private Date finishDate;
 	private int nota;
+	private int studentID;
+	private int enrolmentID;
 	
 	public Enrolment(Course curs, Date startDate, Date finishDate, int nota) {
 		super();
@@ -15,6 +17,26 @@ public class Enrolment {
 		this.finishDate = finishDate;
 		this.nota = nota;
 	}
+	
+	public Enrolment(Course curs, Date startDate, Date finishDate, int nota, int studentID) {
+		super();
+		this.curs = curs;
+		this.startDate = startDate;
+		this.finishDate = finishDate;
+		this.nota = nota;
+		this.studentID=studentID;
+	}
+	
+	public Enrolment(Course curs, Date startDate, Date finishDate, int nota, int studentID, int enrolmentID) {
+		super();
+		this.curs = curs;
+		this.startDate = startDate;
+		this.finishDate = finishDate;
+		this.nota = nota;
+		this.studentID=studentID;
+		this.enrolmentID=enrolmentID;
+	}
+	
 	
 	public Course getCurs() {
 		return curs;
@@ -39,6 +61,22 @@ public class Enrolment {
 	}
 	public void setNota(int nota) {
 		this.nota = nota;
+	}
+
+	public int getStudentID() {
+		return studentID;
+	}
+
+	public void setStudentID(int studentID) {
+		this.studentID = studentID;
+	}
+
+	public int getEnrolmentID() {
+		return enrolmentID;
+	}
+
+	public void setEnrolmentID(int enrolmentID) {
+		this.enrolmentID = enrolmentID;
 	}
 	
 	
