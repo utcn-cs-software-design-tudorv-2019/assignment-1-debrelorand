@@ -1,0 +1,11 @@
+How to install your application on a clean computer:
+
+-Must be installed the following tools: 
+a) XAMP with PHPmyAdmin
+b) Eclipse
+
+First of all, you need to execute the scripts for creating the database (create_SQL.sql)
+Secondly you need to import the project in Eclipse with 2 jar files: mysql-connector-java-5.1.47.jar and miglayout15-swing.jar
+
+Now you can run the application, and you need to create at least 2 users (an administrator and a student).
+After you execute a teacher/student logs in, the user interface allows to perform the necessary operations.
