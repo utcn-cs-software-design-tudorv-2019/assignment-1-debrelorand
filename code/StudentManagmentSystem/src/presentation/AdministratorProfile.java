@@ -177,7 +177,7 @@ public class AdministratorProfile extends JFrame {
 						administrator.setPrenume(textField_Prenume.getText());
 						administrator.setPassword(textField_parola.getText());
 						
-						if(administratorBLL.update(administrator))
+						if(administratorBLL.updateAdministrator(administrator))
 						{
 							JOptionPane.showMessageDialog(null, "Updateul s-a efectuat cu succes!");
 						}
@@ -195,7 +195,7 @@ public class AdministratorProfile extends JFrame {
 		JButton deleteProfile = new JButton("Delete");
 		deleteProfile.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if(administratorBLL.delete(administrator.getNrIdentificare()))
+				if(administratorBLL.deleteAdministrator(administrator))
 				{
 					JOptionPane.showMessageDialog(null, "Administrator sters cu succes!");
 					Home home = new Home();
@@ -217,7 +217,9 @@ public class AdministratorProfile extends JFrame {
 				panel_center.removeAll();
 				panel_center.updateUI();
 				
-				List<Course> courses = courseBLL.getByidAdmin(administrator.getNrIdentificare());
+				Course curs = new Course(1,"",0,administrator.getNrIdentificare());
+				
+				List<Course> courses = courseBLL.getByidAdmin(curs);
 			
 				String[] columnNames = {"ID","Nume disciplina","Credit"};
 				
@@ -276,7 +278,7 @@ public class AdministratorProfile extends JFrame {
 				button.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						Course curs = new Course(textField_Nume.getText(),Integer.parseInt(textField_Credit.getText()),administrator.getNrIdentificare());
-						int id = courseBLL.insert(curs);
+						int id = courseBLL.newCourse(curs);
 						
 						if(id==-1)
 						{
@@ -373,7 +375,9 @@ public class AdministratorProfile extends JFrame {
 							
 							String rezultat="";
 							
-							List<Enrolment> enrolments = enrolmentBLL.getById(Integer.parseInt((String)table.getValueAt(table.getSelectedRow(),0)));
+							Enrolment enrolment = new Enrolment(null,null,null,-1,Integer.parseInt((String)table.getValueAt(table.getSelectedRow(),0)),-1);
+							
+							List<Enrolment> enrolments = enrolmentBLL.getById(enrolment);
 							for(int i=0;i<enrolments.size();i++)
 							{
 								if(enrolments.get(i).getStartDate().getTime()>=startDate.getTime() && enrolments.get(i).getFinishDate().getTime()<=finishDate.getTime())

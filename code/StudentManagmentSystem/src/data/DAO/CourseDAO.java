@@ -19,7 +19,7 @@ public class CourseDAO {
 	private static final String getByidAdminStatementString = "Select * from course where idAdministrator=?";
 	private static final String insertStatementString = "INSERT INTO course (idAdministrator,nume,credit)" + " VALUES (?,?,?)";
 	
-	public int insert(Course curs)
+	public int newCourse(Course curs)
 	{
 		Connection dbConnection = ConnectionFactory.getConnection();
 		PreparedStatement insertStatement = null;
@@ -74,7 +74,7 @@ public class CourseDAO {
 		return cursurile;
 	}
 	
-	public List<Course> getByidAdmin(int id){
+	public List<Course> getByidAdmin(Course course){
 		Connection dbConnection = ConnectionFactory.getConnection();
 		PreparedStatement getByidStatement=null;
 		ResultSet rs = null;
@@ -83,7 +83,7 @@ public class CourseDAO {
 		
 		try {
 			getByidStatement = dbConnection.prepareStatement(getByidAdminStatementString);
-			getByidStatement.setInt(1, id);
+			getByidStatement.setInt(1, course.getidAdministrator());
 			rs = getByidStatement.executeQuery();
 			
 			while(rs.next())

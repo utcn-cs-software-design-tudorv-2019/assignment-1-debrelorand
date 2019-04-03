@@ -10,21 +10,21 @@ public class AdministratorBLL {
 		administratorDAO = new AdministratorDAO();
 	}
 	
-	public int insert(Administrator admin){
-		return administratorDAO.insert(admin);
+	public int registAdministrator(Administrator admin){
+		return administratorDAO.registAdministrator(admin);
 	}
 	
-	public Administrator getByName(String name)
+	public Administrator getByName(Administrator admin)
 	{
-		return administratorDAO.getByName(name);
+		return administratorDAO.getByName(admin);
 	}
 	
-	public boolean update(Administrator admin)
+	public boolean updateAdministrator(Administrator admin)
 	{
-		return administratorDAO.update(admin);
+		return administratorDAO.updateAdministrator(admin);
 	}
 	
-	public boolean delete(int adminID) {
-		return administratorDAO.delete(adminID);
+	public boolean deleteAdministrator(Administrator admin) {
+		return administratorDAO.deleteAdministrator(admin);
 	}
 }

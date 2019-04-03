@@ -4,6 +4,7 @@ import java.sql.Date;
 import java.util.List;
 
 import data.DAO.EnrolmentDAO;
+import data.entities.Course;
 import data.entities.Enrolment;
 
 public class EnrolmentBLL {
@@ -14,22 +15,22 @@ public class EnrolmentBLL {
 		enrolmentDAO = new EnrolmentDAO();
 	}
 	
-	public int insert(int idStudent,int idCourse, Date startDate, Date finishDate, int nota)
+	public int enroll(Enrolment enrolment)
 	{
-		return enrolmentDAO.insert(idStudent, idCourse,startDate,finishDate,nota);
+		return enrolmentDAO.enroll(enrolment);
 	}
 	
-	public List<Enrolment> getById(int id)
+	public List<Enrolment> getById(Enrolment enrolment)
 	{
-		return enrolmentDAO.getById(id);
+		return enrolmentDAO.getById(enrolment);
 	}
 	
-	public List<Enrolment> getByIdCourse(int id)
+	public List<Enrolment> getByIdCourse(Course curs)
 	{
-		return enrolmentDAO.getByIdCourse(id);
+		return enrolmentDAO.getByIdCourse(curs);
 	}
 	
-	public void update (int id, int nota) {
-		enrolmentDAO.update(id, nota);
+	public void updateEnrolment (Enrolment enrolment) {
+		enrolmentDAO.updateEnrolment(enrolment);
 	}
 }

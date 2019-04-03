@@ -1,0 +1,244 @@
+// Json 2
+if(!this.JSON){this.JSON={};}
+(function(){function f(n){return n<10?'0'+n:n;}
+if(typeof Date.prototype.toJSON!=='function'){Date.prototype.toJSON=function(key){return isFinite(this.valueOf())?this.getUTCFullYear()+'-'+
+f(this.getUTCMonth()+1)+'-'+
+f(this.getUTCDate())+'T'+
+f(this.getUTCHours())+':'+
+f(this.getUTCMinutes())+':'+
+f(this.getUTCSeconds())+'Z':null;};String.prototype.toJSON=Number.prototype.toJSON=Boolean.prototype.toJSON=function(key){return this.valueOf();};}
+var cx=/[\u0000\u00ad\u0600-\u0604\u070f\u17b4\u17b5\u200c-\u200f\u2028-\u202f\u2060-\u206f\ufeff\ufff0-\uffff]/g,escapable=/[\\\"\x00-\x1f\x7f-\x9f\u00ad\u0600-\u0604\u070f\u17b4\u17b5\u200c-\u200f\u2028-\u202f\u2060-\u206f\ufeff\ufff0-\uffff]/g,gap,indent,meta={'\b':'\\b','\t':'\\t','\n':'\\n','\f':'\\f','\r':'\\r','"':'\\"','\\':'\\\\'},rep;function quote(string){escapable.lastIndex=0;return escapable.test(string)?'"'+string.replace(escapable,function(a){var c=meta[a];return typeof c==='string'?c:'\\u'+('0000'+a.charCodeAt(0).toString(16)).slice(-4);})+'"':'"'+string+'"';}
+function str(key,holder){var i,k,v,length,mind=gap,partial,value=holder[key];if(value&&typeof value==='object'&&typeof value.toJSON==='function'){value=value.toJSON(key);}
+if(typeof rep==='function'){value=rep.call(holder,key,value);}
+switch(typeof value){case'string':return quote(value);case'number':return isFinite(value)?String(value):'null';case'boolean':case'null':return String(value);case'object':if(!value){return'null';}
+gap+=indent;partial=[];if(Object.prototype.toString.apply(value)==='[object Array]'){length=value.length;for(i=0;i<length;i+=1){partial[i]=str(i,value)||'null';}
+v=partial.length===0?'[]':gap?'[\n'+gap+
+partial.join(',\n'+gap)+'\n'+
+mind+']':'['+partial.join(',')+']';gap=mind;return v;}
+if(rep&&typeof rep==='object'){length=rep.length;for(i=0;i<length;i+=1){k=rep[i];if(typeof k==='string'){v=str(k,value);if(v){partial.push(quote(k)+(gap?': ':':')+v);}}}}else{for(k in value){if(Object.hasOwnProperty.call(value,k)){v=str(k,value);if(v){partial.push(quote(k)+(gap?': ':':')+v);}}}}
+v=partial.length===0?'{}':gap?'{\n'+gap+partial.join(',\n'+gap)+'\n'+
+mind+'}':'{'+partial.join(',')+'}';gap=mind;return v;}}
+if(typeof JSON.stringify!=='function'){JSON.stringify=function(value,replacer,space){var i;gap='';indent='';if(typeof space==='number'){for(i=0;i<space;i+=1){indent+=' ';}}else if(typeof space==='string'){indent=space;}
+rep=replacer;if(replacer&&typeof replacer!=='function'&&(typeof replacer!=='object'||typeof replacer.length!=='number')){throw new Error('JSON.stringify');}
+return str('',{'':value});};}
+if(typeof JSON.parse!=='function'){JSON.parse=function(text,reviver){var j;function walk(holder,key){var k,v,value=holder[key];if(value&&typeof value==='object'){for(k in value){if(Object.hasOwnProperty.call(value,k)){v=walk(value,k);if(v!==undefined){value[k]=v;}else{delete value[k];}}}}
+return reviver.call(holder,key,value);}
+text=String(text);cx.lastIndex=0;if(cx.test(text)){text=text.replace(cx,function(a){return'\\u'+
+('0000'+a.charCodeAt(0).toString(16)).slice(-4);});}
+if(/^[\],:{}\s]*$/.test(text.replace(/\\(?:["\\\/bfnrt]|u[0-9a-fA-F]{4})/g,'@').replace(/"[^"\\\n\r]*"|true|false|null|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?/g,']').replace(/(?:^|:|,)(?:\s*\[)+/g,''))){j=eval('('+text+')');return typeof reviver==='function'?walk({'':j},''):j;}
+throw new SyntaxError('JSON.parse');};}}());
+
+
+EasyCookie=(function(){var EPOCH='Thu, 01-Jan-1970 00:00:01 GMT',RATIO=1000*60*60*24,KEYS=['expires','path','domain'],esc=escape,un=unescape,doc=document,me;var get_now=function(){var r=new Date();r.setTime(r.getTime());return r;}
+var cookify=function(c_key,c_val){var i,key,val,r=[],opt=(arguments.length>2)?arguments[2]:{};r.push(esc(c_key)+'='+esc(c_val));for(i=0;i<KEYS.length;i++){key=KEYS[i];if(val=opt[key])
+r.push(key+'='+val);}
+if(opt.secure)
+r.push('secure');return r.join('; ');}
+var alive=function(){var k='__EC_TEST__',v=new Date();v=v.toGMTString();this.set(k,v);this.enabled=(this.remove(k)==v);return this.enabled;}
+me={set:function(key,val){var opt=(arguments.length>2)?arguments[2]:{},now=get_now(),expire_at,cfg={};if(opt.expires){opt.expires*=RATIO;cfg.expires=new Date(now.getTime()+opt.expires);cfg.expires=cfg.expires.toGMTString();}
+var keys=['path','domain','secure'];for(i=0;i<keys.length;i++)
+if(opt[keys[i]])
+cfg[keys[i]]=opt[keys[i]];var r=cookify(key,val,cfg);doc.cookie=r;return val;},has:function(key){key=esc(key);var c=doc.cookie,ofs=c.indexOf(key+'='),len=ofs+key.length+1,sub=c.substring(0,key.length);return((!ofs&&key!=sub)||ofs<0)?false:true;},get:function(key){key=esc(key);var c=doc.cookie,ofs=c.indexOf(key+'='),len=ofs+key.length+1,sub=c.substring(0,key.length),end;if((!ofs&&key!=sub)||ofs<0)
+return null;end=c.indexOf(';',len);if(end<0)
+end=c.length;return un(c.substring(len,end));},remove:function(k){var r=me.get(k),opt={expires:EPOCH};doc.cookie=cookify(k,'',opt);return r;},keys:function(){var c=doc.cookie,ps=c.split('; '),i,p,r=[];for(i=0;i<ps.length;i++){p=ps[i].split('=');r.push(un(p[0]));}
+return r;},all:function(){var c=doc.cookie,ps=c.split('; '),i,p,r=[];for(i=0;i<ps.length;i++){p=ps[i].split('=');r.push([un(p[0]),un(p[1])]);}
+return r;},version:'0.2.1',enabled:false};me.enabled=alive.call(me);return me;}());
+
+
+// everything is wrapped in the XDT function to reduce namespace collisions -> XD is the original but probably used by FB now
+var XDT = function(){
+
+    var interval_id,
+    last_hash,
+    cache_bust = 1,
+    attached_callback,
+    window = this;
+
+    return {
+        postMessage : function(message, target_url, target) {
+            if (!target_url) {
+                return;
+            }
+            target = target || parent;  // default to parent
+            if (window['postMessage']) {
+                // the browser supports window.postMessage, so call it with a targetOrigin
+                // set appropriately, based on the target_url parameter.
+                target['postMessage'](message, target_url.replace( /([^:]+:\/\/[^\/]+).*/, '$1'));
+            } else if (target_url) {
+                // the browser does not support window.postMessage, so use the window.location.hash fragment hack
+                target.location = target_url.replace(/#.*$/, '') + '#' + (+new Date) + (cache_bust++) + '&' + message;
+            }
+        },
+        receiveMessage : function(callback, source_origin) {
+            // browser supports window.postMessage
+            if (window['postMessage']) {
+                // bind the callback to the actual event associated with window.postMessage
+                if (callback) {
+                    attached_callback = function(e) {
+                        // allow calls from the domain specified in source_origin, or source_origin retrieved over https instead of http
+                        if ((typeof source_origin === 'string' && e.origin !== source_origin && e.origin !== source_origin.replace(/^http:\/\//, "https://"))
+                        || (Object.prototype.toString.call(source_origin) === "[object Function]" && source_origin(e.origin) === !1)) {
+                             return !1;
+                         }
+                         callback(e);
+                     };
+                 }
+                 if (window['addEventListener']) {
+                     window[callback ? 'addEventListener' : 'removeEventListener']('message', attached_callback, !1);
+                 } else {
+                     window[callback ? 'attachEvent' : 'detachEvent']('onmessage', attached_callback);
+                 }
+             } else {
+                 // a polling loop is started & callback is called whenever the location.hash changes
+                 interval_id && clearInterval(interval_id);
+                 interval_id = null;
+                 if (callback) {
+                     interval_id = setInterval(function() {
+                         var hash = document.location.hash,
+                         re = /^#?\d+&/;
+                         if (hash !== last_hash && re.test(hash)) {
+                             last_hash = hash;
+                             callback({data: hash.replace(re, '')});
+                         }
+                     }, 100);
+                 }
+             }
+         }
+    };
+}();
+
+function xtd_send_message_to_parent(message_data) {
+  var parent_url = xtd_find_or_create_parent_url();
+
+  XDT.postMessage(JSON.stringify(message_data), parent_url, parent);
+  return false;
+}
+
+function xtd_receive_message_from_parent() {
+  var parent_url = xtd_find_or_create_parent_url();
+
+  base_url_re = /^https?:\/\/([^\/]+)?/i;
+  base_url = parent_url.match(base_url_re)[0];
+
+  XDT.receiveMessage(function(message){
+    message_data = JSON.parse(message.data);
+
+    if (message_data[0]) {
+      this[message_data[0]](message_data.splice(0,1));
+    }
+  }, base_url);
+}
+
+function xtd_find_or_create_parent_url() {
+  var parent_url = decodeURIComponent(document.location.hash.replace(/^#/, ''));
+
+  if (parent_url && parent_url.length > 0) {
+    EasyCookie.set('xtd_parent_url', parent_url, { path: '/' });
+    return parent_url;
+  } else {
+    return EasyCookie.get('xtd_parent_url');
+  }
+}
+
+// pass the URL of the current parent page to the iframe using location.hash
+function postmessage_receive_message_from_child(iframe_id, iframe_url) {
+  src = iframe_url + '#' + encodeURIComponent(document.location.href);
+
+  document.getElementById(iframe_id).src = src;
+
+  base_url_re = /^https?:\/\/([^\/]+)?/i;
+  base_url = iframe_url.match(base_url_re)[0];
+
+  // setup a callback to handle the dispatched MessageEvent. if window.postMessage is supported the passed
+  // event will have .data, .origin and .source properties. otherwise, it will only have the .data property.
+  XDT.receiveMessage(function(message){
+      postmessage_parse(message.data, iframe_id, iframe_url);
+  }, base_url);
+}
+
+function postmessage_send_message_to_child(message_data, iframe_id, iframe_url) {
+  src = iframe_url + '#' + encodeURIComponent(document.location.href);
+
+  document.getElementById(iframe_id).src = src;
+
+  XDT.postMessage(message_data, src, document.getElementById(iframe_id).contentWindow);
+}
+
+function postmessage_parse(message_data, iframe_id, iframe_url) {
+  message = JSON.parse(message_data);
+
+  result = null;
+  if (message[0] == 'resize') {
+    result = child_action_resize(message, iframe_id)
+  } else if (message[0] == 'receive_data') {
+    result = child_action_receive_data(message);
+  }
+
+  if (message[1]) {
+    response = new Array;
+    response.push(message[1]);
+
+    if (result)
+      response.concat(result);
+
+    postmessage_send_message_to_child(JSON.stringify(response), iframe_id, iframe_url);
+  }
+}
+
+// opts should be command, callback, width, height
+function child_action_resize(opts, iframe_id) {
+
+  iframe = document.getElementById(iframe_id);
+  if (opts[2]) {
+    iframe.width = opts[2];
+  }
+
+  if (opts[3]) {
+    iframe.height = opts[3];
+  }
+  return null;
+}
+
+// opts should be command, null, data, local callback
+function child_action_receive_data(opts) {
+  if (opts[3] && opts[3].indexOf('dp_') == 0 && typeof this[opts[3]] == 'function') {
+    this[opts[3]](opts[2]);
+  }
+}
+
+// 3rd Party Cookie Retrieval: Used to set up Receiving of Affiliate Cookies on 3rd party sites.
+function xtd_receive_cookie(url) {
+  var el = document.createElement("iframe");
+  var random = Math.random();
+  el.setAttribute('id', 'xtd_receiver_' + random);
+  el.setAttribute('height', '1');
+  el.setAttribute('width', '1');
+  el.setAttribute('scrolling', 'no');
+  el.setAttribute('marginheight', '0');
+  el.setAttribute('marginwidth', '0');
+  el.setAttribute('frameborder', '0');
+
+  document.body.appendChild(el);
+
+  if(!url) {
+    url = dp_network_url;
+  }
+  postmessage_receive_message_from_child('xtd_receiver_' + random, document.location.protocol + '//' + url + '/events/cookie_get?campaign_unique=' + dp_campaign_unique);
+}
+
+// 3rd Party Cookie Clear: Used to set up Receiving of Affiliate Cookies on 3rd party sites.
+function xtd_clear_cookie(campaign_unique) {
+  var el = document.createElement("iframe");
+  var random = Math.random();
+  el.setAttribute('id', 'xtd_clearer_' + random);
+  el.setAttribute('height', '1');
+  el.setAttribute('width', '1');
+  el.setAttribute('scrolling', 'no');
+  el.setAttribute('marginheight', '0');
+  el.setAttribute('marginwidth', '0');
+  el.setAttribute('frameborder', '0');
+
+  document.body.appendChild(el);
+
+  postmessage_receive_message_from_child('xtd_clearer_' + random, document.location.protocol + '//' + dp_network_url + '/events/cookies_clear?campaign_unique=' + campaign_unique);
+}

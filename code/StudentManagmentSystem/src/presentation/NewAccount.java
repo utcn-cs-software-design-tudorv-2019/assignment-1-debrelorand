@@ -123,7 +123,7 @@ public class NewAccount extends JFrame {
 					Student student = new Student(nume,prenume,username,password,cnp,adresa,email,grupa);
 					try {
 						register.validate(student);
-						int newId = studentBLL.insert(student);
+						int newId = studentBLL.registerStudent(student);
 						JOptionPane.showMessageDialog(null, "Studentul a fost adaugat cu succes, numar de card:"+newId);
 						setVisible(false);
 					}
@@ -148,7 +148,7 @@ public class NewAccount extends JFrame {
 						
 						try {
 							Administrator admin = new Administrator(nume,prenume,username,password,cnp,adresa,email,catedra);
-							int newId = administratorBLL.insert(admin);
+							int newId = administratorBLL.registAdministrator(admin);
 							JOptionPane.showMessageDialog(null, "Administratorul a fost adaugat cu succes, numar de card:"+newId);
 							setVisible(false);
 						}

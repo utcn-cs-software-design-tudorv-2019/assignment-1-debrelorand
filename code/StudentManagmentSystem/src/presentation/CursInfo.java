@@ -5,6 +5,7 @@ import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.Date;
 import java.util.List;
 
 import javax.swing.JButton;
@@ -55,7 +56,7 @@ public class CursInfo extends JFrame {
 		lblBineAiVenit.setFont(new Font("Tahoma", Font.BOLD, 11));
 		panel_north.add(lblBineAiVenit, "flowx,cell 0 0");
 		
-		List<Enrolment> enrollments = enrolmentBLL.getByIdCourse(curs.getId());
+		List<Enrolment> enrollments = enrolmentBLL.getByIdCourse(curs);
 		
 		String[] columnNames = {"ID","Student","Start date","Finish date","Nota"};
 		
@@ -105,7 +106,9 @@ public class CursInfo extends JFrame {
 		button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				int id = Integer.parseInt((String)table.getValueAt(table.getSelectedRow(),0));
-				enrolmentBLL.update(id, Integer.parseInt(textField_nota.getText()));
+//public Enrolment(Course curs, Date startDate, Date finishDate, int nota, int studentID, int enrolmentID)
+				Enrolment enrolment = new Enrolment(null,null,null, Integer.parseInt(textField_nota.getText()),-1,id);
+				enrolmentBLL.updateEnrolment(enrolment);
 				JOptionPane.showMessageDialog(null, "Succes!");
 				setVisible(false);
 			}

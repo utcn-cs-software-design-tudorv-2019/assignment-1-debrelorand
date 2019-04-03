@@ -22,18 +22,18 @@ public class EnrolmentDAO {
 	private static final String getByIdCourseStatementString = "SELECT * from enrollment where idCourse=?";
 	private final static String updateStatementString = "UPDATE enrollment SET nota=?" + " WHERE idEnrollment=?";
 	
-	public int insert(int idStudent,int idCourse, Date startDate, Date finishDate, int nota) {
+	public int enroll(Enrolment enrolment) {
 		Connection dbConnection = ConnectionFactory.getConnection();
 		PreparedStatement insertStatement = null;
 		int new_id=-1;
 		try {
 			insertStatement = dbConnection.prepareStatement(insertStatementString, Statement.RETURN_GENERATED_KEYS);
 			
-			insertStatement.setInt(1, idStudent);
-			insertStatement.setInt(2,idCourse);
-			insertStatement.setDate(3, startDate);
-			insertStatement.setDate(4, finishDate);
-			insertStatement.setInt(5, nota);
+			insertStatement.setInt(1, enrolment.getStudentID());
+			insertStatement.setInt(2,enrolment.getCurs().getId());
+			insertStatement.setDate(3, enrolment.getStartDate());
+			insertStatement.setDate(4, enrolment.getFinishDate());
+			insertStatement.setInt(5, enrolment.getNota());
 			
 			insertStatement.executeUpdate();
 			
@@ -50,7 +50,7 @@ public class EnrolmentDAO {
 		return new_id;
 	}
 	
-	public List<Enrolment> getById(int id)
+	public List<Enrolment> getById(Enrolment enrolment)
 	{
 		List<Enrolment> rez = new ArrayList<Enrolment>();
 
@@ -61,7 +61,7 @@ public class EnrolmentDAO {
 			ResultSet rs = null;
 			ResultSet rs2 = null;
 			finderStatement = dbConnection.prepareStatement(getByIdStudentStatementString, Statement.RETURN_GENERATED_KEYS);
-			finderStatement.setInt(1,id);
+			finderStatement.setInt(1,enrolment.getStudentID());
 			//System.out.println(finderStatement);
 			rs = finderStatement.executeQuery();
 			
@@ -87,7 +87,7 @@ public class EnrolmentDAO {
 		return rez;
 	}
 	
-	public List<Enrolment> getByIdCourse(int id)
+	public List<Enrolment> getByIdCourse(Course course)
 	{
 		List<Enrolment> rez = new ArrayList<Enrolment>();
 
@@ -98,7 +98,7 @@ public class EnrolmentDAO {
 			ResultSet rs = null;
 			ResultSet rs2 = null;
 			finderStatement = dbConnection.prepareStatement(getByIdCourseStatementString, Statement.RETURN_GENERATED_KEYS);
-			finderStatement.setInt(1,id);
+			finderStatement.setInt(1,course.getId());
 			//System.out.println(finderStatement);
 			rs = finderStatement.executeQuery();
 			
@@ -124,14 +124,14 @@ public class EnrolmentDAO {
 		return rez;
 	}
 	
-	public void update (int id, int nota) {
+	public void updateEnrolment (Enrolment enrolment) {
 		Connection dbConnection = ConnectionFactory.getConnection();
 		PreparedStatement updateStatement = null;	
 
 		try {			
 			updateStatement = dbConnection.prepareStatement(updateStatementString, Statement.RETURN_GENERATED_KEYS);		
-			updateStatement.setInt(1,nota);
-			updateStatement.setInt(2, id);
+			updateStatement.setInt(1,enrolment.getNota());
+			updateStatement.setInt(2, enrolment.getEnrolmentID());
 			updateStatement.executeUpdate();
 		}
 		catch(SQLException e)

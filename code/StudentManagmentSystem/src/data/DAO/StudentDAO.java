@@ -24,7 +24,7 @@ public class StudentDAO {
 	private final static String selectByID = "SELECT * from student where idStudent=?";
 	private final static String getAll = "SELECT * from student";
 	
-	public int insert(Student student) {
+	public int registerStudent(Student student) {
 		Connection dbConnection = ConnectionFactory.getConnection();
 		PreparedStatement insertStatement = null;
 		int new_id=-1;
@@ -105,7 +105,7 @@ public class StudentDAO {
 		return rezultat;
 	}
 	
-	public boolean update(Student student)
+	public boolean updateStudent(Student student)
 	{
 //private final static String updateStatementString = "UPDATE student SET nume=?,prenume=?,username=?,password=?,cnp=?,adresa=?,email=?,grupa=?" + " WHERE idStudent=?";
 		Connection dbConnection = ConnectionFactory.getConnection();
@@ -136,7 +136,7 @@ public class StudentDAO {
 	    }	
 	}
 	
-	public boolean delete(int ID){
+	public boolean deleteStudent(int ID){
 		Connection dbConnection = ConnectionFactory.getConnection();
 		PreparedStatement deleteStatement = null;
 		

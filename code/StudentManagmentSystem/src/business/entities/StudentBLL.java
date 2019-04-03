@@ -13,9 +13,9 @@ public class StudentBLL {
 		studentDAO=new StudentDAO();
 	}
 	
-	public int insert(Student student)
+	public int registerStudent(Student student)
 	{
-		return studentDAO.insert(student);
+		return studentDAO.registerStudent(student);
 	}
 	
 	public Student getByID(int id)
@@ -28,14 +28,14 @@ public class StudentBLL {
 		return studentDAO.getByName(Name);
 	}
 	
-	public boolean update(Student student)
+	public boolean updateStudent(Student student)
 	{
-		return studentDAO.update(student);
+		return studentDAO.updateStudent(student);
 	}
 	
-	public boolean delete(int ID)
+	public boolean deleteStudent(int ID)
 	{
-		return studentDAO.delete(ID);
+		return studentDAO.deleteStudent(ID);
 	}
 	
 	public List<Student> getAll()

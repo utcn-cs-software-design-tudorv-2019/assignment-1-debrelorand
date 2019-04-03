@@ -13,9 +13,9 @@ public class CourseBLL {
 		courseDAO = new CourseDAO();
 	}
 	
-	public int insert(Course curs)
+	public int newCourse(Course curs)
 	{
-		return courseDAO.insert(curs);
+		return courseDAO.newCourse(curs);
 	}
 	
 	public List<Course> getAll()
@@ -23,8 +23,8 @@ public class CourseBLL {
 		return courseDAO.getAll();
 	}
 	
-	public List<Course> getByidAdmin(int id)
+	public List<Course> getByidAdmin(Course course)
 	{
-		return courseDAO.getByidAdmin(id);
+		return courseDAO.getByidAdmin(course);
 	}
 }

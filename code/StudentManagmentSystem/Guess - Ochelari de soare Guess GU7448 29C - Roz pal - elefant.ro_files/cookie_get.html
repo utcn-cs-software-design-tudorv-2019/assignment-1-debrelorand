@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<!-- saved from url=(0238)https://event.2performant.com/events/cookie_get?redirected_from=2parale&campaign_unique=184f69294#http%3A%2F%2Fwww.elefant.ro%2Ffashion%2Fochelari%2Fochelari-de-soare%2Fochelari-de-soare-guess-guviiivivviii-iiixc-roz-pal-118365554-59.html -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <script type="text/javascript" src="./application-actions-2e85ba78de2f864a08f6c6775b72e7d11e48d6f92e15cb9fc0123b28a25d5bdd.js.download"></script>
+  <link rel="shortcut icon" href="data:,">
+</head>
+
+<body marginwidth="0" marginheight="0">
+
+    <script type="text/javascript">
+      function receive_cookie_data(cookie) {
+        msg = [ "receive_data", null, cookie, "dp_cookie_result" ];
+        xtd_send_message_to_parent(msg);
+      }
+
+      function dp_cookie_check() {
+        dp_TrackerInit();
+        var dpr = dp_TrackerGet("dp_184f69294", receive_cookie_data, null);
+
+        try {
+
+          if (typeof(dpr) != 'undefined' && dpr == false) {
+            /* Let's fallback to the old kind of cookie */
+            receive_cookie_data(null);
+          } else {
+          }
+        } catch(err) {
+        }
+      }
+
+      dp_AddOnloadEvent(dp_cookie_check);
+    </script>
+
+
+
+</body></html>

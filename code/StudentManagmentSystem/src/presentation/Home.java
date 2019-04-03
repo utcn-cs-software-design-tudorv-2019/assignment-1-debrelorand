@@ -112,7 +112,8 @@ public class Home extends JFrame{
 				}
 				else
 				{
-					Administrator administrator = administratorBLL.getByName(username);
+					Administrator administrator = new Administrator("","",username,"","","","","");
+					administrator = administratorBLL.getByName(administrator);
 					if(administrator!=null)
 					{
 						if(administrator.getPassword().equals(password))

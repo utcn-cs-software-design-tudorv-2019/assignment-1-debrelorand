@@ -176,7 +176,7 @@ public class StudentProfile extends JFrame {
 						student.setPrenume(textField_Prenume.getText());
 						student.setPassword(textField_parola.getText());
 						
-						if(studentBLL.update(student))
+						if(studentBLL.updateStudent(student))
 						{
 							JOptionPane.showMessageDialog(null, "Updateul s-a efectuat cu succes!");
 						}
@@ -194,7 +194,7 @@ public class StudentProfile extends JFrame {
 		JButton deleteProfile = new JButton("Delete");
 		deleteProfile.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if(studentBLL.delete(student.getNrIdentificare()))
+				if(studentBLL.deleteStudent(student.getNrIdentificare()))
 				{
 					JOptionPane.showMessageDialog(null, "Student sters cu succes!");
 					Home home = new Home();
@@ -274,8 +274,14 @@ public class StudentProfile extends JFrame {
 							Date startDate=new java.sql.Date(date.getTime());
 							date = sdf1.parse(textField_finish.getText());
 							Date finishDate=new java.sql.Date(date.getTime());
+		//int idStudent,int idCourse, Date startDate, Date finishDate, int nota
+		//public Course(int id, String nume, int credit, int idAdministrator) {
+		//public Enrolment(Course curs, Date startDate, Date finishDate, int nota, int studentID, int enrolmentID)
+							Course curs = new Course(Integer.parseInt((String)table.getValueAt(row, 0)),"",0,0);
 							
-							enrolmentBLL.insert(student.getNrIdentificare(), Integer.parseInt((String)table.getValueAt(row, 0)), startDate, finishDate, -1);				
+							Enrolment enrolment = new Enrolment(curs, startDate, finishDate, -1, student.getNrIdentificare(),-1);
+							
+							enrolmentBLL.enroll(enrolment);				
 						} catch (ParseException e1) {
 							// TODO Auto-generated catch block
 							e1.printStackTrace();
@@ -294,7 +300,10 @@ public class StudentProfile extends JFrame {
 				panel_center.removeAll();
 				panel_center.updateUI();
 				
-				List<Enrolment> enrolments = enrolmentBLL.getById(student.getNrIdentificare());
+	//public Enrolment(Course curs, Date startDate, Date finishDate, int nota, int studentID, int enrolmentID)
+				Enrolment enrolment = new Enrolment(null,null,null,-1,student.getNrIdentificare(),-1);
+				
+				List<Enrolment> enrolments = enrolmentBLL.getById(enrolment);
 				
 				String[] columnNames = {"Nume disciplina","Credit","Start Date","Finish Date","Nota"};
 				
